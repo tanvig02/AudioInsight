@@ -21,7 +21,7 @@ const AudioUpload = () => {
     }
   }, [audio]);
 
-  const handleClick = () => {
+  const PlayAudio = () => {
     if (buttonName === "Play") {
       a.play();
       setButtonName("Pause");
@@ -58,57 +58,50 @@ const AudioUpload = () => {
     }
   };
 
-  const [name, setName] = useState("");
-  const url = "http://localhost:5000/profile";
+  // const url = "http://localhost:5000/profile";
 
-  const submit = async (e) => {
-    e.preventDefault();
-    // Axios.post(url, {
-    //   name,
-    // }).then((res) => {
-    //   console.log(res.data);
-    // });
-    let response = await fetch("http://localhost:5000/audio", {
-      method: "post",
-      body: name,
-    });
-    let res = await response.json();
-    if (res.status != 1) {
-      alert("Error uploading file");
-    }
-  };
-  const handle = (e) => {
-    setName(e.target.value);
-    console.log(name);
-  };
+  // const submit = async (e) => {
+  //   e.preventDefault();
+  // Axios.post(url, {
+  //   name,
+  // }).then((res) => {
+  //   console.log(res.data);
+  // });
+  // let response = await fetch("http://localhost:5000/audio", {
+  //   method: "post",
+  //   body: data,
+  // });
+  //   let res = await response.json();
+  //   if (res.status != 1) {
+  //     alert("Error uploading file");
+  //   }
+  // };
 
-  const [message, setMessage] = useState("");
-  const [message2, setMessage2] = useState("");
-  useEffect(() => {
-    Axios.get(url)
-      .then((res) => {
-        console.log(res);
-        setMessage(res.data.name);
-        console.log(message);
-        setMessage2(res.data.share);
-        console.log(message2);
-      })
-      .catch((error) => {
-        console.log("error fetxhing data:", error);
-      });
-  }, []);
+  // const [message, setMessage] = useState("");
+  // const [message2, setMessage2] = useState("");
+  // useEffect(() => {
+  //   Axios.get(url)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setMessage(res.data.name);
+  //       console.log(message);
+  //       setMessage2(res.data.share);
+  //       console.log(message2);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error fetxhing data:", error);
+  //     });
+  // }, []);
 
   return (
     <>
       <div className="w-full">
         <div className="max-w-[1240px] xl:mx-auto mx-10">
-          {/* <h1>{message} hello</h1> */}
-          <p>{message2} </p>
           <div>
             {" "}
             <button
               className="p-4 m-2 bg-gray-500 text-white font-bold text-xl rounded-full "
-              onClick={handleClick}
+              onClick={PlayAudio}
             >
               ▶{buttonName}
             </button>
@@ -124,9 +117,9 @@ const AudioUpload = () => {
           </div>
           <div className="m-auto">
             <form
-              onSubmit={(e) => {
-                submit(e);
-              }}
+            // onSubmit={(e) => {
+            //   submit(e);
+            // }}
             >
               <label className="sr-only">Choose file</label>
               <input
@@ -138,6 +131,7 @@ const AudioUpload = () => {
     file:py-3 file:px-4
     dark:file:bg-gray-700 dark:file:text-gray-400"
               />
+              {/* <button onClick={submit}>Submit</button> */}
             </form>
           </div>
         </div>

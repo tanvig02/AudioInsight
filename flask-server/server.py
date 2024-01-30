@@ -26,11 +26,27 @@ def audio():
         print(f"Uploading file {filename}")
         file_bytes = file.read()
         file_content = BytesIO(file_bytes).readlines()
-        print(file_content)
+        # print(file_content)
         d['status'] = 1
 
     except Exception as e:
         print(f"Couldn't upload file {e}")
+        d['status'] = 0
+
+    return jsonify(d)
+
+
+@api.route("/text", methods=["POST"])
+def text():
+    d = {}
+    try:
+        # getting the text for summarization
+        textData = request.data
+        print(textData)
+        d['status'] = 1
+
+    except Exception as e:
+        print(f"couldn't get the text {e}")
         d['status'] = 0
 
     return jsonify(d)

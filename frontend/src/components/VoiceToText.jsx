@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { useState, useEffect } from "react";
+import Axios from "axios";
 
 const VoiceToText = () => {
   const [message, setMessage] = useState("");
+  const [text, setText] = useState("");
   // const [isCopied, setIsCopied] = useState(false);
   // const [text, setText] = useState("");
   const commands = [
@@ -56,6 +57,36 @@ const VoiceToText = () => {
   //   console.log(navigator.clipboard);
   // };
 
+  const handleSubmit = async () => {
+    setText(transcript);
+    //post transcript
+    Axios.post("http://localhost:5000/text", {
+      text,
+    })
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 1) {
+          alert("Text send");
+        }
+      })
+      .catch((error) => {
+        console.log("error fetching data: ", error);
+      });
+
+    //get status (sent or not)
+    // let response = await fetch("http://localhost:5000/text", {
+    //   method: "get",
+    // });
+    // let res = await Axios.get("http://localhost:5000/text")
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error fetxhing data:", error);
+    //   });
+    //  response.json();
+  };
+
   return (
     <>
       <div className="container">
@@ -79,6 +110,9 @@ const VoiceToText = () => {
           </button>
           <button className="btn-vtt" onClick={SpeechRecognition.stopListening}>
             stop listening
+          </button>
+          <button className="btn-vtt" onClick={handleSubmit}>
+            Summrise
           </button>
         </div>
       </div>
