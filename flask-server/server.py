@@ -41,7 +41,6 @@ def text():
     d = {}
     try:
         # getting the text for summarization
-        # why
         textData = request.data
         print(textData)
         d['status'] = 1
