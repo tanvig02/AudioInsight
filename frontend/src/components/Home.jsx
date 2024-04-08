@@ -2,179 +2,39 @@ import React from "react";
 import img1 from "../images/ai_section2_new1.png";
 import img2 from "../images/ai_section2_new2.png";
 import img3 from "../images/ai_section2_new3.png";
+import { FaMicrophone } from "react-icons/fa";
+import { GrNotes } from "react-icons/gr";
+import { Link } from "react-router-dom";
 const Home = () => {
-  // const [data, setData] = useState([
-  //   {
-  //     id: 1,
-  //     name: "John Doe",
-  //     age: 30,
-  //     occupation: "Software Engineer",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Jane Doe",
-  //     age: 25,
-  //     occupation: "Web Developer",
-  //   },
-  // ]);
 
-  // const columns = [
-  //   {
-  //     Header: "ID",
-  //     accessor: "id",
-  //     width: 50,
-  //   },
-  //   {
-  //     Header: "Name",
-  //     accessor: "name",
-  //   },
-  //   {
-  //     Header: "Age",
-  //     accessor: "age",
-  //   },
-  //   {
-  //     Header: "Occupation",
-  //     accessor: "occupation",
-  //   },
-  // ];
   return (
-    <div className="flex flex-col h-screen">
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-7xl px-4 py-6">
-          <div>
-            <h1 className="text-xl font-bold text-gray-800">
-              Our Free Summarizing Tool capture your key points in a flash
-            </h1>
-            <p className="mt-4 text-gray-600">
-              Wordvice's free text summarizer sums up articles, essays, papers,
-              and other documents down to their main points with the click of a
-              button. Our AI tech summarizes text using natural language
-              processing, identifying crucial content while retaining your
-              original meaning and context. Capture your meaning in fewer words
-              with our instant summarizing tool.
-            </p>
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-800">
-              Key Features of our Text Summarizer
-            </h1>
-            {/* <ul className="mt-4 list-disc text-gray-600">
-              <li>AI summarizer</li>
-              <li>Summarize</li>
-              <li>100% free</li>
-              <li>Extracts key points and generates summary</li>
-              <li>Get a summary for any essay, article, or document</li>
-              <li>Simply register to begin using our summarizer</li>
-            </ul> */}
-            {/* <table className="table-auto w-full border border-collapse border-gray-200 rounded-lg">
-              <tbody>
-                <tr>
-                  <td className="border-b border-gray-200 bg-gray-100 px-4 py-2 text-left text-sm font-semibold text-gray-900">
-                    AI summarizer
-                  </td>
-                  <td className="border-gray-200 px-4 py-2">
-                    Extracts key points and generates summary
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-200 bg-gray-100 px-4 py-2 text-left text-sm font-semibold text-gray-900">
-                    Summarize
-                  </td>
-                  <td className="border-gray-200 px-4 py-2">
-                    Get a summary for any essay, article, or document
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border-b border-gray-200 bg-gray-100 px-4 py-2 text-left text-sm font-semibold text-gray-900">
-                    100% free
-                  </td>
-                  <td className="border-gray-200 px-4 py-2">
-                    Simply register to begin using our summarizer
-                  </td>
-                </tr>
-              </tbody>
-            </table> */}
-            {/* <Table
-              data={data}
-              columns={columns}
-              className="table-auto w-full border border-collapse border-gray-200 rounded-lg"
-            >
-              <thead>
-                <tr>
-                  {columns.map((column, index) => (
-                    <th
-                      key={index}
-                      className="border-b border-gray-200 bg-gray-100 px-4 py-2 text-left text-sm font-semibold text-gray-900"
-                    >
-                      {column.Header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, index) => (
-                  <tr key={index} className="border-b border-gray-200">
-                    {columns.map((column, index) => (
-                      <td key={index} className="border-gray-200 px-4 py-2">
-                        {row[column.accessor]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </Table> */}
-          </div>
-
-          <div className="flex justify-center items-center">
-            <div className="flex flex-col justify-center items-center space-y-5">
-              <img
-                src={img1}
-                alt="img1"
-                className="w-full h-full object-cover"
-              />
-              <h1 className="font-semibold  ">
-                Real-time grammar and typo corrections increase the accuracy of
-                your writings.
-              </h1>
-              <p>
-                Wordvice AI Proofreader improves your vocabulary and enhances
-                your style through and grammar and typo checks.
-              </p>
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <img
-                src={img2}
-                alt="img2"
-                className="w-full h-full object-cover"
-              />
-              <h1>
-                Real-time grammar and typo corrections increase the accuracy of
-                your writings.
-              </h1>
-              <p>
-                Wordvice AI Proofreader improves your vocabulary and enhances
-                your style through and grammar and typo checks.
-              </p>
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <img
-                src={img3}
-                alt="img3"
-                className="w-full h-full object-cover"
-              />
-              <h1>
-                Real-time grammar and typo corrections increase the accuracy of
-                your writings.
-              </h1>
-              <p>
-                Wordvice AI Proofreader improves your vocabulary and enhances
-                your style through and grammar and typo checks.
-              </p>
-            </div>
+    <div className="h-[695px] bg-gray-800 text-gray-300 flex flex-col justify-end align-middle">
+      <div className=" m-auto w-[70%] space-y-10">
+        <div>
+          <h1 className="text-5xl font-extrabold drop-shadow-md shadow-white flex text-center align-bottom pt-12">Speech to Text - Voice Typing & Transcription</h1>
+        </div>
+        <div className="space-y-5">
+          <h3 className="text-center text-xl">Take notes with your voice for free, or automatically transcribe audio & video recordings. Secure, accurate & blazing fast.</h3>
+          <div className="text-center space-y-2 ">
+            <button className="bg-[#8ed6fb] text-black px-5 py-[10px] rounded-lg w-[200px] text-lg">
+              <Link to={"/main"}>Get Stated</Link>
+            </button>
+            <h1>we Provide ~</h1>
           </div>
         </div>
-      </main>
+        <div className="flex justify-around ">
+          <div className="border-[1px] border-gray-700 rounded-md w-[350px] h-[280px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 flex flex-col items-center space-y-5 p-10">
+            <FaMicrophone className="w-[100px] h-[100px] " />
+            <h1 className="font-bold text-3xl text-center">Speech Recogniser</h1>
+          </div>
+          <div className="border-[1px] border-gray-700 rounded-md w-[350px] h-[280px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 flex flex-col items-center space-y-5 p-10">
+            <GrNotes className="w-[100px] h-[100px]" />
+            <h1 className="font-bold text-3xl">Summarizer</h1>
+          </div>
+        </div>
+      </div>
     </div>
+
   );
 };
 

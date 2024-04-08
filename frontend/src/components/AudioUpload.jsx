@@ -4,7 +4,6 @@ import Axios from "axios";
 var a;
 const AudioUpload = () => {
   const [buttonName, setButtonName] = useState("Play");
-
   const [audio, setAudio] = useState();
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const AudioUpload = () => {
 
       // console.log(file);
       // console.log(data);
-      console.log("done");
+      console.log(data);
 
       let response = await fetch("http://localhost:5000/audio", {
         method: "post",
@@ -57,6 +56,35 @@ const AudioUpload = () => {
       }
     }
   };
+
+  const uploadFile2 = async (e)=>{
+    try{
+      const headers = {
+        "content-type": "multipart/form-data",
+      };
+      
+      const file = e.target.files[0];
+      console.log(file)
+      if(file!= null){
+        const formData = new FormData();
+        formData.append("file_from_react", file);
+        
+        console.log(formData);
+        const resp = await Axios
+          .post("http://localhost:5000/audio", formData , { headers });
+        
+          if(resp.status===200){
+            alert("file uploaded!!");
+          }
+          console.log(resp)
+      }
+    }catch(error){
+      if(error.response.status === 401){
+        alert("File not uploaded")
+      }
+    }
+    
+  }
 
   // const url = "http://localhost:5000/profile";
 
@@ -95,7 +123,7 @@ const AudioUpload = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-fit">
         <div className="max-w-[1240px] xl:mx-auto mx-10">
           <div>
             {" "}
@@ -109,7 +137,7 @@ const AudioUpload = () => {
               type="file"
               onChange={addFile}
               className="w-[400px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
-    file:bg-gray-50 file:border-0
+    file:border-0
     file:bg-gray-100 file:me-4
     file:py-3 file:px-4
     dark:file:bg-gray-700 dark:file:text-gray-400"
@@ -124,9 +152,9 @@ const AudioUpload = () => {
               <label className="sr-only">Choose file</label>
               <input
                 type="file"
-                onChange={uploadFile}
+                onChange={uploadFile2}
                 className="block w-[400px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
-    file:bg-gray-50 file:border-0
+    file:border-0
     file:bg-gray-100 file:me-4
     file:py-3 file:px-4
     dark:file:bg-gray-700 dark:file:text-gray-400"
