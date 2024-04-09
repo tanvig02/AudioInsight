@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../App.css";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -8,11 +8,13 @@ import { BiCloudUpload } from "react-icons/bi";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { IoMicCircleSharp, IoMicOffCircle } from "react-icons/io5";
 import { MdOutlineWifiProtectedSetup } from "react-icons/md";
-import AudioUpload from "./AudioUpload";
+// import AudioUpload from "./AudioUpload";
 
 const VoiceToText = () => {
-  const [summary, setSummary] = useState("");
+  // const [summary, setSummary] = useState("");
   const [text, setText] = useState("");
+  const [audio, setAudio] = useState();
+  const [audiobtn, setAudioBtn] = useState(true)
 
   const startListening = () =>
     SpeechRecognition.startListening({
@@ -47,8 +49,13 @@ const VoiceToText = () => {
   //   console.log(navigator.clipboard);
   // };
 
+  const clearText=()=>{
+    setText("")
+  }
+
   const handleSubmit = async () => {
     setText(transcript);
+    console.log(text)
     //post transcript
     Axios.post("http://localhost:5000/text", {
       text,
@@ -56,7 +63,7 @@ const VoiceToText = () => {
       .then((res) => {
         console.log(res.data);
         if (res.status === 1) {
-          alert("Text send");
+          window.alert("Text send");
         }
       })
       .catch((error) => {
@@ -77,63 +84,111 @@ const VoiceToText = () => {
     //  response.json();
   };
 
+
+
   const uploadFile2 = async (e)=>{
     try{
-      const headers = {
-        "content-type": "multipart/form-data",
-      };
       
-      const file = e.target.files[0];
-      console.log(file)
-      if(file!= null){
-        const formData = new FormData();
-        formData.append("file_from_react", file);
-        
-        console.log(formData);
-        const resp = await Axios
-          .post("http://localhost:5000/audio", formData , { headers });
-        
-          if(resp.status===200){
-            alert("file uploaded!!");
-          }
-          console.log(resp)
-      }
+      const formData = new FormData();
+      formData.append("react_file", audio);
+      console.log(formData)
+      const resp = await Axios.post("http://localhost:5000/audio", formData , { headers:{
+        "Custom-Header": "value",
+        "Content-type": "multipart/form-data",
+      }});
+      
+        if(resp.status===200){
+          alert("file uploaded!!");
+        }
+        console.log(resp)
+      
     }catch(error){
-      if(error.response.status === 401){
+      if(error.response && error.response.status === 401 ){
         alert("File not uploaded")
+      }else{
+        console.log("error in file uploading: ", error)
       }
     }
-    
   }
+
+  // const [myFile, setMyFile] = useState(null);
+  // const [progress, setProgress] = useState({started: false, pc:0});
+  // const [msg, setMsg] = useState("");
+
+  // const handleUpload=()=>{
+  //   if(!myFile){
+  //     console.log("no file");
+  //   }
+
+  //   const fd = new FormData();
+  //   fd.append("file_from_react", myFile);
+
+  //   setProgress(prevState=>{
+  //     return {...prevState, started: true}
+  //   })
+  //   setMsg("Uploading...");
+  //   Axios.post('http://localhost:5000/audio', fd, {
+  //     onUploadProgress: (progressEvent)=>{setProgress(prevState=>{
+  //       return {...prevState, pc:progressEvent.progress*100}
+  //     })},
+  //       headers:{
+  //         "Custom-Header": "value",
+  //       }
+  //   }).then(res => {
+  //     setMsg("Upload Successfully")
+  //     console.log(res.data)
+  //   })
+  //   .catch(err => {
+  //     setMsg("Upload Failed")
+  //     console.log(err)
+  //   });
+
+  // }
 
   return (
     <>
-    <div className="h-[690px] bg-gray-800 text-gray-300 flex flex-col justify-center items-center">
-      <div className="w-[75%] border-[1px] border-slate-400 rounded-md h-[450px] p-5">
-        <div>listening: {listening ? "on" : "off"}</div>
+    <div className="h-[700px] bg-gray-800 text-gray-300 flex flex-col justify-center items-center">
+      <div className="w-[75%] border-[1px] border-slate-400 rounded-md h-[500px] p-5">
+        <div className="text-slate-200 space-x-3 "><button onClick={()=>setAudioBtn(true)} className="border-[1px]  border-white p-2 rounded-sm">Audio</button><button className="border-[1px] border-white p-2 rounded-sm bg-slate-200 text-slate-700" onClick={()=>setAudioBtn(false)}>text</button></div>
+        {audiobtn===true? <div>listening: {listening ? "on" : "off"}</div>: <div></div>}
+        
         <div className="flex bg-slate-400 text-black rounded-md h-[330px] relative">
-          {listening ? <button onClick={SpeechRecognition.stopListening} > <IoMicCircleSharp className="w-14 h-14 absolute bottom-5 left-5 text-blue-700 hover:text-blue-900 cursor-pointer " /></button> : <button onClick={startListening}> <IoMicOffCircle className="w-14 h-14 absolute bottom-5 left-5 text-blue-700 hover:text-blue-900 cursor-pointer "  /> </button> }
-          <button onClick={resetTranscript}> <MdOutlineWifiProtectedSetup  className="w-14 h-14 absolute bottom-5 left-20 text-blue-700 hover:text-blue-900 cursor-pointer "  /> </button>
+         { audiobtn===false ?<div></div>
+          :  <div>
+          {listening ? <button onClick={SpeechRecognition.stopListening} > <IoMicCircleSharp className="w-14 h-14 absolute bottom-5 left-5 text-blue-700 hover:text-blue-900 cursor-pointer " /></button> : <button onClick={startListening}> <IoMicOffCircle className="w-14 h-14 absolute bottom-5 left-5 text-blue-700 hover:text-blue-900 cursor-pointer "  /> </button> } 
+          </div>
+          }
+          <button onClick={() => { resetTranscript(); clearText();}}> <MdOutlineWifiProtectedSetup  className="w-14 h-14 absolute bottom-5 left-20 text-blue-700 hover:text-blue-900 cursor-pointer "  /> </button> 
+          
           
           {/* Text */}
-          <div className="w-[50%] border-r border-black p-5">
-          {transcript}
-           {/* text here */}
-          </div>
+          { audiobtn?<div data-text="you can speek..." className="w-[50%] bg-slate-400 border-r border-black p-5">{transcript}</div>
+          :
+          <textarea placeholder="you can type here..." className="w-[50%] bg-slate-400 border-r border-black p-5" value={text} onChange={(e)=>{setText(e.target.value)}}/>
+          }
+
           <div className="w-[50%] p-5">
             {/* summary */}
           </div>
         </div>
-        <div className="flex justify-between align-middle w-[30%] text-lg text-center font-semibold">
+        <div className="flex justify-between align-middle w-[30%] pt-3 text-sm text-center font-semibold">
           <div className="flex px-3 py-[7px] "> 
             <BiCloudUpload className="w-12 h-12" />
-            <input className="pt-2" type="file" onChange={uploadFile2}/>
+            <input className="pt-2" type="file" onChange={(e)=>{setAudio(e.target.files[0])}}/>
+            {/* <input className="pt-2" onChange={(e)=>{setMyFile(e.target.files[0])}} type="file"/> */}
+            {/* <button onClick={handleUpload} >Upload</button> */}
           </div>
-          <div className="flex px-3 py-[7px] mt-3 border-[1px] border-slate-100 rounded-xl hover:bg-slate-500">
+          <div className="flex p-2 border-[1px] border-slate-100 rounded-xl hover:bg-slate-500">
               <button onClick={handleSubmit}>
-                Summarize
+                Summarize Text
               </button>
-              <FaArrowAltCircleRight className="w-10 h-8"/>
+              <FaArrowAltCircleRight className="w-8 h-6"/>
+          </div>
+          <div className="flex p-2 border-[1px] border-slate-100 rounded-xl hover:bg-slate-500">
+              <button onClick={uploadFile2}>
+                Summarize Audio
+              </button>
+              <FaArrowAltCircleRight className="w-8 h-6"/>
           </div>
         </div>
       </div>
